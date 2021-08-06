@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: matrix-synapse
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: matrix-synapse
+    server: 'https://kubernetes.default.svc'
+  project: default
+  source:
+    path: synapse
+    repoURL: https://github.com/vrutkovs/synapse-operatefirst
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

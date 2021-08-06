@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slack-bridge
+  labels:
+    app: slack-bridge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: slack-bridge
+  template:
+    metadata:
+      labels:
+        app: slack-bridge
+    spec:
+      containers:
+        - name: slack-appservice-irc
+          image: "docker.io/matrixdotorg/matrix-appservice-slack:release-1.8.0"
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 10m
+              memory: 100Mi
+            limits:
+              cpu: 500m
+              memory: 500Mi
+          ports:
+            - containerPort: 9805
+            - containerPort: 5858
+          volumeMounts:
+            - name: slack-config
+              mountPath: /config
+              readOnly: true
+      volumes:
+        - name: slack-config
+          secret:
+            secretName: slack-config

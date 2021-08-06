@@ -1,0 +1,14 @@
+element-web:
+  defaultServer:
+    url: 'https://matrix.apps.vrutkovs.devcluster.openshift.com'
+    name: 'OKD Matrix'
+
+  securityContext:
+    runAsUser: 0
+
+  ingress:
+    enabled: true
+    annotations:
+      route.openshift.io/termination: edge
+    hosts:
+      - chat.apps.vrutkovs.devcluster.openshift.com

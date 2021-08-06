@@ -1,0 +1,28 @@
+postgresql:
+    postgresqlUsername: "admin"
+    postgresqlPassword: "admin"
+    postgresqlPostgresPassword: "postgres"
+
+    volumePermissions:
+        enabled: false
+        securityContext:
+            runAsUser: "auto"
+
+    securityContext:
+        enabled: false
+
+    shmVolume:
+        chmod:
+            enabled: false
+
+    containerSecurityContext:
+        enabled: false
+
+    initdbScripts:
+        script.sql: |
+            CREATE USER synapse WITH PASSWORD 'synapse';
+            CREATE DATABASE synapse ENCODING 'UTF8' LC_COLLATE='C' LC_CTYPE='C' template=template0 OWNER 'synapse';
+            CREATE USER slack WITH PASSWORD 'supersecure';
+            CREATE DATABASE slack template=template0  OWNER 'slack';
+    initdbUser: "postgres"
+    initdbPassword: "postgres"

@@ -1,0 +1,17 @@
+---
+apiVersion: v2
+name: matrix-postgresql
+description: PostgreSQL
+icon: https://matrix.org/images/matrix-logo.svg
+appVersion: 11.12.0
+
+type: application
+version: 10.9.1
+maintainers:
+  - name: Vadim Rutkovsky
+    email: vadim@vrutkovs.eu
+
+dependencies:
+  - name: postgresql
+    version: 10.9.1
+    repository: https://charts.bitnami.com/bitnami

@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: matrix-element
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: matrix-element
+    server: 'https://kubernetes.default.svc'
+  project: default
+  source:
+    path: element-web
+    repoURL: https://github.com/vrutkovs/synapse-operatefirst
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

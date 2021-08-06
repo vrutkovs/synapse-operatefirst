@@ -1,0 +1,53 @@
+matrix-synapse:
+    serverName: matrix.apps.vrutkovs.devcluster.openshift.com
+    wellknown:
+        enabled: true
+    ingress:
+        annotations:
+            route.openshift.io/termination: edge
+    synapse:
+        extraVolumes: &extraVolumes
+            - name: slack
+              secret:
+                secretName: slack-config
+                defaultMode: 420
+        extraVolumeMounts: &extraVolumeMounts
+            - name: slack
+              mountPath: /synapse/bridges/slack-registration.yaml
+              subPath: slack-registration.yaml
+    extraConfig:
+        app_service_config_files:
+            - /synapse/bridges/slack-registration.yaml
+        use_presence: false
+        enable_search: false
+
+    workers:
+        default:
+            replicaCount: 1
+            volumes: *extraVolumes
+            volumeMounts: *extraVolumeMounts
+        appservice:
+            enabled: true
+        federation_sender:
+            enabled: true
+        media_repository:
+            enabled: true
+
+    postgresql:
+        enabled: false
+    externalPostgresql:
+        host: matrix-postgresql.matrix-postgresql.svc.cluster.local
+        port: 5432
+        username: synapse
+        password: synapse
+        database: synapse
+    redis:
+        volumePermissions:
+            enabled: false
+        securityContext:
+            enabled: false
+            fsGroup: auto
+            runAsUser: auto
+    signingkey:
+        job:
+            enabled: false

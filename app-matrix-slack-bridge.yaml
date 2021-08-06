@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: matrix-slack-bridge
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: matrix-slack-bridge
+    server: 'https://kubernetes.default.svc'
+  project: default
+  source:
+    path: slack-bridge
+    repoURL: 'https://github.com/vrutkovs/synapse-operatefirst'
+    targetRevision: HEAD
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
